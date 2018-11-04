@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>页面布局</title>
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../js/easyui/themes/icon.css">
+	<script type="text/javascript" src="../js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+	<!-- 第一步：引入ztree css 样式  js-->
+<link rel="stylesheet" href="../js/ztree/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="../js/ztree/jquery.ztree.all-3.5.js"></script>
+<SCRIPT type="text/javascript" >
+	
+		var setting = {
+			//默认使用属性默认值
+			//如果要使用简单json构造ztree 必须要启用简单数据模式
+			data : {
+				simpleData : {
+					enable : true
+				}
+			},
+			//当ztree树形菜单加载完成后 为节点绑定单击事件
+			callback: {
+				onClick: function(event, treeId, treeNode){//匿名函数
+					// alert(treeNode.tId + ", " + treeNode.name);
+				if(treeNode.page != 'undefined' ){
+					//判断是否已经打开这个选项卡 
+	 				var flag = $('#mytabs').tabs('exists',treeNode.name);
+	 				//alert(flag);
+	 				///如果已经打开则选中
+	 				if(flag){
+	 					$('#mytabs').tabs('select',treeNode.name);
+	 				}
+	 				else
+					{
+						///如果未打开则新建选项卡
+	 				//看api如何打开选项卡
+	 				$('#mytabs').tabs('add',  //add:添加一个新的选项卡
+	 				        {
+	 				          title: treeNode.name,//选项卡标题
+	 				          selected: true, //选中
+	 				          closable:true,//关闭按钮设置
+	 				          content:'<iframe width="100%" height="100%" src="../'+treeNode.page+'"></iframe>'
+	 						}
+	 				);  
+					}
+				}
+				
+					
+				}
+			}
+
+		};
+		$(document).ready(function() {
+			var url = "../data/menu.json";//zTreeNodes:json对象
+			$.post(url,{},function(zTreeNodes){
+				//页面加载完成后为mytree容器动态创建ztree  $("#mytree"):获取到容器   setting：属性设置 zTreeNodes：节点数据
+				$.fn.zTree.init($("#mytree"), setting, zTreeNodes);
+			},'json')
+		});
+	</script>
+</head>
+
+<body class="easyui-layout">   
+    <div data-options="region:'north',split:true" style="height:100px;"></div>   
+       
+    <div data-options="region:'west',title:'菜单导航',split:true" style="width:200px;">
+    	<ul id="mytree" class="ztree" ></ul>
+    </div>
+    
+    <div class="easyui-tabs" id="mytabs" data-options="region:'center',fit:true" style="padding:5px">
+	    <div title="消息中心" style="padding:20px;display:none;">   
+	        
+	    </div>
+	    <div title="Tab2" data-options="closable:true,iconCls:'icon-reload'" style="overflow:auto;padding:20px;display:none;">   
+	            
+	    </div>
+    </div>
+    
+    <div data-options="region:'south',split:true" style="height:100px;">
+    	BOSv2.0综合物流管理平台 | Powered by 传智播客 在线人数:1
+    </div>
+</body>
+<!-- 消息中心菜单导航 -->
+</html>

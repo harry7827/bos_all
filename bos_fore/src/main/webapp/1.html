@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="plugins/city-picker.css">
+<script src="plugins/jquery.min.js"></script>
+<script src="js/citypicker/js/city-picker.data.js"></script>
+<script src="js/citypicker/js/city-picker.js"></script>
+<style type="text/css">
+		html {
+			height: 100%
+		}
+		
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px
+		}
+		
+		#container {
+			height: 100%
+		}
+	</style>
+	<script type="text/javascript"
+		src="http://api.map.baidu.com/api?v=2.0&ak=K1sWeclRysOyHSltIfwmPGYzYIoBcakw">
+		//v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+	</script>
+</head>
+<body>
+	<div style="position: relative;">
+		<!-- container -->
+		<input id="input1" readonly type="text" placeholder="请选择省/市">
+		<input id="reset" type="button" value="重置">
+	</div>
+<!-- 	<div id="container"></div>
+	<script type="text/javascript">
+		var map = new BMap.Map("container");
+		// 创建地图实例  
+		var point = new BMap.Point(116.404, 39.915);
+		// 创建点坐标  
+		map.centerAndZoom(point, 15);
+		// 初始化地图，设置中心点坐标和地图级别
+	</script> -->
+	<input id="sendAddress" type="text" placeholder="请填写省/市">
+	<script type="text/javascript">
+		$(function(){
+			var ac = new BMap.Autocomplete({
+				input:"sendAddress"
+			});
+		});
+	</script>
+</body>
+	<script type="text/javascript">
+		$(function(){
+			$("#input1").citypicker();
+			$("#reset").click(function(){
+				$("#input1").citypicker("reset");
+			});
+		});
+	</script>
+</html>
